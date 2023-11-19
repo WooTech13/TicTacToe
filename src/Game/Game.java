@@ -12,7 +12,6 @@ public class Game {
 	public Game() {
 		this.setTable(new GameTable());
 		this.setPlayers();
-		this.table.printTable();
 		this.run();
 	}
 
@@ -64,41 +63,64 @@ public class Game {
 		name = in.nextLine();
 		
 		if(sign.charAt(0)=='O') {
-			this.setPlayer2(new Player(name, 'O'));
-		} else {
 			this.setPlayer2(new Player(name, 'X'));
+		} else {
+			this.setPlayer2(new Player(name, 'O'));
 		}
-		in.close();
+		//in.close();
 	}
 	
 	public void run() {
-		Scanner in = new Scanner(System.in);
-		boolean end = false;
-		while(end==false) {
+		int pos[] = new int[2];
+		while(true) {
+			this.table.printTable();
+			pos = this.askPlayer(this.player1);
+			if(this.table.isWin(pos)) {
+				this.table.printTable();
+				System.out.print("\n"+this.player1.getNom()+" won ! End of the game");
+				System.exit(0);
+			} else if(this.table.isDraw()) {
+				this.table.printTable();
+				System.out.print("\nDraw... End of the game");
+				System.exit(0);
+			}
 			
+			this.table.printTable();
+			pos = this.askPlayer(this.player2);
+			if(this.table.isWin(pos)) {
+				this.table.printTable();
+				System.out.print("\n"+this.player2.getNom()+" won ! End of the game");
+				System.exit(0);
+			} else if(this.table.isDraw()) {
+				this.table.printTable();
+				System.out.print("\nDraw... End of the game");
+				System.exit(0);
+			}
 		}
-		in.close();
 	}
 	
-	public void askPlayer() {
+	public int[] askPlayer(Player player) {
 		Scanner in = new Scanner(System.in);
 		String reg = "^[0-2],[0-2]$";
-		int x,y;
-		
-		System.out.print("Cell (top-left cell is 0,0, format is x,y : ");
-		String cell = in.nextLine();
+		String cellPos;
 		boolean cellGood = false;
+		int[] pos = new int[2];
+		
+		System.out.print(player.getNom()+" turn, cell to play (top-left cell is 0,0, format is x,y) ?  ");
+		cellPos = in.nextLine();
 		while(cellGood==false) {
-			if(Pattern.matches(reg, cell)) {
-				x = cell.charAt(0);
-				y = cell.charAt(2);
+			if(Pattern.matches(reg, cellPos)) {
+				pos[0] = Integer.parseInt(cellPos.split(",")[0]);
+				pos[1] = Integer.parseInt(cellPos.split(",")[1]);
 				cellGood=true;
 			} else {
 				System.out.print("Wrong format.\nCell (top-left cell is 0,0, format is x,y : ");
-				cell = in.nextLine();
+				cellPos = in.nextLine();
 			}
-		}
-		in.close();
+		}		
+
+		this.table.getTable()[pos[1]][pos[0]].setValue(player.getSign());
+		return pos;
 		
 	}
 	
