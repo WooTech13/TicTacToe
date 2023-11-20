@@ -8,11 +8,11 @@ public class Game {
 	private GameTable table;
 	private Player player1, player2;
 	private static final String REG_OX = "^[OX]$";
+	private static Scanner in = new Scanner(System.in);
 	
 	public Game() {
 		this.setTable(new GameTable());
 		this.setPlayers();
-		this.run();
 	}
 
 	public GameTable getTable() {
@@ -40,7 +40,6 @@ public class Game {
 	}
 	
 	public void setPlayers() {
-		Scanner in = new Scanner(System.in);
 		String name, sign;
 		
 		System.out.print("Name of player 1 : ");
@@ -67,7 +66,11 @@ public class Game {
 		} else {
 			this.setPlayer2(new Player(name, 'O'));
 		}
-		//in.close();
+	}
+	
+	public void endGame() {
+		in.close();
+		System.exit(0);
 	}
 	
 	public void run() {
@@ -78,11 +81,11 @@ public class Game {
 			if(this.table.isWin(pos)) {
 				this.table.printTable();
 				System.out.print("\n"+this.player1.getNom()+" won ! End of the game");
-				System.exit(0);
+				this.endGame();
 			} else if(this.table.isDraw()) {
 				this.table.printTable();
 				System.out.print("\nDraw... End of the game");
-				System.exit(0);
+				this.endGame();
 			}
 			
 			this.table.printTable();
@@ -90,38 +93,39 @@ public class Game {
 			if(this.table.isWin(pos)) {
 				this.table.printTable();
 				System.out.print("\n"+this.player2.getNom()+" won ! End of the game");
-				System.exit(0);
+				this.endGame();
 			} else if(this.table.isDraw()) {
 				this.table.printTable();
 				System.out.print("\nDraw... End of the game");
-				System.exit(0);
+				this.endGame();
 			}
 		}
 	}
 	
 	public int[] askPlayer(Player player) {
-		Scanner in = new Scanner(System.in);
+		
 		String reg = "^[0-2],[0-2]$";
 		String cellPos;
-		boolean cellGood = false;
 		int[] pos = new int[2];
 		
 		System.out.print(player.getNom()+" turn, cell to play (top-left cell is 0,0, format is x,y) ?  ");
 		cellPos = in.nextLine();
-		while(cellGood==false) {
+		while(true) {
 			if(Pattern.matches(reg, cellPos)) {
 				pos[0] = Integer.parseInt(cellPos.split(",")[0]);
 				pos[1] = Integer.parseInt(cellPos.split(",")[1]);
-				cellGood=true;
+				if(this.table.getCellValue(pos)== ' ') {
+					this.table.getTable()[pos[1]][pos[0]].setValue(player.getSign());
+					return pos;
+				} else {
+					System.out.print("Cell already used. Please enter a new one.\nCell (top-left cell is 0,0, format is x,y : ");
+					cellPos = in.nextLine();
+				}
 			} else {
 				System.out.print("Wrong format.\nCell (top-left cell is 0,0, format is x,y : ");
 				cellPos = in.nextLine();
 			}
-		}		
-
-		this.table.getTable()[pos[1]][pos[0]].setValue(player.getSign());
-		return pos;
-		
+		}
 	}
 	
 

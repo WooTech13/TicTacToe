@@ -25,6 +25,10 @@ public class GameTable {
 		}
 	}
 	
+	public char getCellValue(int[] pos) {
+		return this.table[pos[1]][pos[0]].getValue();
+	}
+	
 	public void printTable() {
 		int x,y;
 		System.out.print("-------------\n");
@@ -54,13 +58,13 @@ public class GameTable {
 		char sign = this.table[y][x].getValue();
 		
 		if((x+y==0) || (x+y==4)) {
-			isWin = this.verifVert(x,sign) || this.verifHori(y, sign) || this.verifDiagTopLeft(sign);
+			isWin = this.verifVert(x,sign) || this.verifHori(y, sign) || this.verifDiag(0,sign);
 		} else if((x+y==2) && (x!=y)){
-			isWin = this.verifVert(x,sign) || this.verifHori(y, sign) || this.verifDiagTopRight(sign);
+			isWin = this.verifVert(x,sign) || this.verifHori(y, sign) || this.verifDiag(2,sign);
 		} else if((x+y==1) || (x+y==3)) {
 			isWin = this.verifVert(x,sign) || this.verifHori(y, sign);
 		} else {
-			isWin = this.verifVert(x,sign) || this.verifHori(y, sign) || this.verifDiagTopLeft(sign) || this.verifDiagTopRight(sign);
+			isWin = this.verifVert(x,sign) || this.verifHori(y, sign) || this.verifDiag(0,sign) || this.verifDiag(2,sign);
 		}
 		if(isWin) {
 			return true;
@@ -70,7 +74,7 @@ public class GameTable {
 	}
 	
 	public boolean verifVert(int x, char sign) {
-		if((this.table[0][x].getValue() == sign) && (this.table[1][x].getValue() == sign) && (this.table[1][x].getValue() == sign)) {
+		if((this.table[0][x].getValue() == sign) && (this.table[1][x].getValue() == sign) && (this.table[2][x].getValue() == sign)) {
 			return true;
 		} else {
 			return false;
@@ -101,5 +105,12 @@ public class GameTable {
 		}
 	}
 	
-
+	public boolean verifDiag(int offset, char sign) {
+		if((this.table[0][0+offset].getValue() == sign) && (this.table[1][1].getValue() == sign) && (this.table[2][0+offset].getValue() == sign)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 }
