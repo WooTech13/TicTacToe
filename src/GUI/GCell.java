@@ -13,7 +13,7 @@ public class GCell extends JButton implements ActionListener{
 	
 	public GCell() {
 		super();
-		this.setValue(' ');
+		this.setValue(Character.MIN_VALUE);
 		this.setBackground(new Color(255,255,255));
 		this.setBorder(new LineBorder(Color.BLACK));
 		this.setText(""+this.getValue());

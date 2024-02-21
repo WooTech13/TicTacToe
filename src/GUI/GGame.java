@@ -81,6 +81,10 @@ public class GGame extends JFrame implements ActionListener{
 		this.panTop.setBackground(color);
 	}
 	
+	public void changePlayer(){
+		this.playerToPlay = (this.playerToPlay+1)%2;
+	}
+
 	public void setPlayers() {
 		this.players = new Player[2];
 		this.players[0] = new Player();
@@ -138,7 +142,7 @@ public class GGame extends JFrame implements ActionListener{
 		int x,y;
 		for(x=0;x<3;x++) {
 			for(y=0;y<3;y++) {
-				if(this.table[y][x].getValue()==' ') {
+				if(this.table[y][x].getValue()==Character.MIN_VALUE) {
 					return false;
 				}
 			}
@@ -146,12 +150,10 @@ public class GGame extends JFrame implements ActionListener{
 		return true;
 	}
 
-	public void changePlayer(){
-		this.playerToPlay = (this.playerToPlay+1)%2;
-	}
+	
 	
 	public boolean isWin(int[] pos) {
-		int x = pos[0],y = pos[1];
+		int y = pos[0],x = pos[1];
 		boolean isWin = false;
 		char sign = this.table[y][x].getValue();
 		
@@ -212,7 +214,6 @@ public class GGame extends JFrame implements ActionListener{
 		}
 	}
 
-	
 	public void endGame() {
 		int x,y;
 		for(y=0;y<3;y++) {
@@ -234,31 +235,4 @@ public class GGame extends JFrame implements ActionListener{
 				this.setStateLabel(this.players[this.playerToPlay].getNom()+" turn", Color.orange);
 			}
 	}
-	/*
-	public int[] askPlayer(Player player) {
-		
-		String reg = "^[0-2],[0-2]$";
-		String cellPos;
-		int[] pos = new int[2];
-		
-		System.out.print(player.getNom()+" turn, cell to play (top-left cell is 0,0, format is x,y) ?  ");
-		cellPos = in.nextLine();
-		while(true) {
-			if(Pattern.matches(reg, cellPos)) {
-				pos[0] = Integer.parseInt(cellPos.split(",")[0]);
-				pos[1] = Integer.parseInt(cellPos.split(",")[1]);
-				if(this.frame.getCellValue(pos)== ' ') {
-					this.frame.getFrame()[pos[1]][pos[0]].setValue(player.getSign());
-					return pos;
-				} else {
-					System.out.print("Cell already used. Please enter a new one.\nCell (top-left cell is 0,0, format is x,y : ");
-					cellPos = in.nextLine();
-				}
-			} else {
-				System.out.print("Wrong format.\nCell (top-left cell is 0,0, format is x,y : ");
-				cellPos = in.nextLine();
-			}
-		}
-	}
-	*/
 }
