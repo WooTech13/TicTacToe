@@ -4,15 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.MenuBar;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Scanner;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -28,11 +30,15 @@ public class GGame extends JFrame implements ActionListener{
 	private static final String REG_OX = "^[OX]$";
 	private JPanel panTop,panMid;
 	private JLabel stateLabel;
+
+	private JMenuBar bar;
+	private JMenu file;
+	private JMenuItem newG, quit;
 	
 	public GGame() {
 		super("TicTacToe game !");
 		this.setFrame();
-		//this.setTable();
+
 		this.setPlayers();
 		this.setStateLabel(this.players[this.playerToPlay].getNom()+" turn", Color.orange);
 	}
@@ -58,6 +64,18 @@ public class GGame extends JFrame implements ActionListener{
 	}
 
 	public void setFrame(){
+		bar = new JMenuBar();
+		file = new JMenu("File");
+		newG = new JMenuItem("New");
+		newG.addActionListener(this);
+		quit = new JMenuItem("Quit");
+		
+		file.add(newG);
+		file.add(quit);
+		bar.add(file);
+
+		this.setJMenuBar(bar);
+
 		panTop = new JPanel();
 		stateLabel = new JLabel();
 		this.setStateLabel("Configuring players...", Color.orange);
@@ -197,11 +215,13 @@ public class GGame extends JFrame implements ActionListener{
 		}
 	}
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		int x,y;
+	public void actionPerformed(ActionEvent event) {
+		System.out.println(event.getSource().getClass());
+		if(event.getSource().getClass());
+		/*int x,y;
 		for(y=0;y<3;y++) {
 			for(x=0;x<3;x++) {
-				if((GCell) arg0.getSource() == this.table[y][x]) {
+				if((GCell) event.getSource() == this.table[y][x]) {
 					this.table[y][x].setEnabled(false);
 					this.table[y][x].setValue(this.players[this.playerToPlay].getSign());
 
@@ -211,7 +231,7 @@ public class GGame extends JFrame implements ActionListener{
 					this.run(pos);
 				}
 			}
-		}
+		}*/
 	}
 
 	public void endGame() {

@@ -1,27 +1,23 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
 
-public class GCell extends JButton implements ActionListener{
+public class GCell extends JButton {
 	private static final long serialVersionUID = 1L;
 	private char value;
 	
 	public GCell() {
 		super();
 		this.setValue(Character.MIN_VALUE);
-		this.setBackground(new Color(255,255,255));
-		this.setBorder(new LineBorder(Color.BLACK));
-		this.setText(""+this.getValue());
-		//this.addActionListener(this);
-	}
-	
-	public GCell(JButton but) {
 		
+		this.setBackground(Color.white);
+		this.setBorder(new LineBorder(Color.black));
+		this.setFont(new Font("Arial", Font.PLAIN, 40));
+		this.setText(""+this.getValue());
 	}
 	
 	public GCell(char c) {
@@ -36,11 +32,4 @@ public class GCell extends JButton implements ActionListener{
 		this.value = value;
 		this.setText(""+this.value);
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		System.out.println((GCell) arg0.getSource());
-		
-	}
-
 }
