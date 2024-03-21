@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import Game.Game;
 import Game.Player;
 
 public class GGame extends JFrame implements ActionListener{
@@ -216,8 +217,15 @@ public class GGame extends JFrame implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		System.out.println(event.getSource().getClass());
-		if(event.getSource().getClass());
+		if(JMenuItem.class.isInstance(event.getSource())){
+			if(event.getSource() == this.newG){
+				new Game();
+			} else {
+				System.out.println("non");
+			}
+		} else {
+			System.out.println("non");
+		}
 		/*int x,y;
 		for(y=0;y<3;y++) {
 			for(x=0;x<3;x++) {
