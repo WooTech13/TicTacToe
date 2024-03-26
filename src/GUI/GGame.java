@@ -64,6 +64,13 @@ public class GGame extends JFrame implements ActionListener{
 		}
 	}
 
+	public void resetTable(){
+		this.panMid.removeAll();
+		this.setTable();
+		this.panMid.revalidate();
+		this.panMid.repaint();
+	}
+
 	public void setFrame(){
 		bar = new JMenuBar();
 		file = new JMenu("File");
@@ -219,27 +226,27 @@ public class GGame extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		if(JMenuItem.class.isInstance(event.getSource())){
 			if(event.getSource() == this.newG){
-				new Game();
+				this.resetTable();
+				this.setPlayers();
 			} else {
 				System.out.println("non");
 			}
-		} else {
-			System.out.println("non");
-		}
-		/*int x,y;
-		for(y=0;y<3;y++) {
-			for(x=0;x<3;x++) {
-				if((GCell) event.getSource() == this.table[y][x]) {
-					this.table[y][x].setEnabled(false);
-					this.table[y][x].setValue(this.players[this.playerToPlay].getSign());
+		} else if(GCell.class.isInstance(event.getSource())){
+			int x,y;
+			for(y=0;y<3;y++) {
+				for(x=0;x<3;x++) {
+					if((GCell) event.getSource() == this.table[y][x]) {
+						this.table[y][x].setEnabled(false);
+						this.table[y][x].setValue(this.players[this.playerToPlay].getSign());
 
-					int pos[] = {y,x};
-					System.out.println("y="+pos[0]);
-					System.out.println("x="+pos[1]);
-					this.run(pos);
+						int pos[] = {y,x};
+						System.out.println("y="+pos[0]);
+						System.out.println("x="+pos[1]);
+						this.run(pos);
+					}
 				}
 			}
-		}*/
+		}
 	}
 
 	public void endGame() {
